@@ -4,11 +4,18 @@ import { useState } from "react";
 import { PasswordInput } from "./PasswordInput";
 import { signup } from "@/app/signup/actions";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export function SignupForm() {
+  const [email, setEmail] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
 
+  const emailValid = EMAIL_REGEX.test(email);
+  const showEmailError = emailTouched && !emailValid;
   const mismatch = confirm.length > 0 && confirm !== password;
+  const disabled = !emailValid || mismatch || password.length < 8;
 
   return (
     <form action={signup} className="space-y-4">
@@ -19,8 +26,22 @@ export function SignupForm() {
           name="email"
           required
           autoComplete="email"
-          className="block w-full rounded-md border border-zinc-300 px-3 py-2 text-base focus:border-zinc-900 focus:outline-none"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onBlur={() => setEmailTouched(true)}
+          aria-invalid={showEmailError || undefined}
+          aria-describedby={showEmailError ? "email-error" : undefined}
+          className={`block w-full rounded-md border px-3 py-2 text-base focus:outline-none ${
+            showEmailError
+              ? "border-red-400 focus:border-red-500"
+              : "border-zinc-300 focus:border-zinc-900"
+          }`}
         />
+        {showEmailError && (
+          <span id="email-error" className="mt-1 block text-xs text-red-700">
+            Please enter a valid email address.
+          </span>
+        )}
       </label>
 
       <div>
@@ -56,7 +77,7 @@ export function SignupForm() {
 
       <button
         type="submit"
-        disabled={mismatch || password.length < 8}
+        disabled={disabled}
         className="block w-full rounded-md bg-zinc-900 py-2 text-base font-medium text-white hover:bg-zinc-800 disabled:cursor-not-allowed disabled:bg-zinc-300"
       >
         Create account
