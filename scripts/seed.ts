@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { createClient } from "@supabase/supabase-js";
 import { exercises } from "../supabase/seed/exercises";
 import { routines } from "../supabase/seed/routines";
