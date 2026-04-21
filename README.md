@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Exercise
 
-## Getting Started
+A personal daily exercise web app. Guided workouts, minimal UI, free-tier only.
 
-First, run the development server:
+**Live:** https://exercise-app-mu.vercel.app/
+
+## Stack
+- Next.js 16 (App Router) + React 19 + TypeScript
+- Tailwind CSS 4
+- Supabase — Postgres + Auth + RLS
+- Vercel deploy, free tier
+
+## Local setup
+
+Requires Node 20+.
 
 ```bash
+# 1. Clone
+git clone https://github.com/kjduremdes19/exercise-app.git
+cd exercise-app
+
+# 2. Install
+npm install
+
+# 3. Configure environment
+cp .env.local.example .env.local
+# Fill in NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+# from https://supabase.com/dashboard/project/<your-ref>/settings/api
+
+# 4. Run
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# → http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Commands
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Command         | Description                                                |
+| --------------- | ---------------------------------------------------------- |
+| `npm run dev`   | Start dev server                                           |
+| `npm run build` | Production build                                           |
+| `npm run lint`  | ESLint                                                     |
+| `npm test`      | Vitest run (workout reducer suite)                         |
+| `npm run db:seed` | Idempotent seed into Supabase (needs service-role key)   |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Database
 
-## Learn More
+Schema lives in [`supabase/migrations/0001_init.sql`](supabase/migrations/0001_init.sql). Apply it by pasting into the Supabase dashboard SQL editor, or via `supabase db push` if the CLI is set up.
 
-To learn more about Next.js, take a look at the following resources:
+Seed data is TypeScript under [`supabase/seed/`](supabase/seed/). `npm run db:seed` upserts by slug and reconciles `routine_exercises` by deleting positions past the desired length — safe to re-run.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Notable choices
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Session refresh lives in [`proxy.ts`](proxy.ts) (Next.js 16 renamed `middleware.ts` → `proxy.ts`).
+- Workout state is a [pure reducer](lib/workout/machine.ts) with [unit tests](lib/workout/machine.test.ts).
+- Timers anchor on `Date.now()` and recompute on `visibilitychange`, so locking the phone mid-workout doesn't drift the countdown.
+- Screen wake lock is held while the player is mounted; audio beep is synthesized via Web Audio inside a user gesture.
+- `completeSession` Server Action is Zod-validated and rate-limited (≥5 sessions/60s = rejected).
+- State is not persisted between workout sessions — refresh mid-workout returns you to the routine detail. Acceptable for v1.
 
-## Deploy on Vercel
+## Project conventions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [CLAUDE.md](CLAUDE.md) for repo conventions, hard rules (RLS, service-role key, timers), and directory layout.
