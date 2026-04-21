@@ -39,14 +39,12 @@ export default async function RoutineDetailPage({
         <ExerciseList steps={routine.steps} />
       </div>
 
-      <button
-        type="button"
-        disabled
-        className="mt-6 w-full rounded-md bg-zinc-300 py-3 text-base font-medium text-zinc-600"
-        title="Workout player lands in Phase 4"
+      <Link
+        href={`/routines/${routine.slug}/play`}
+        className="mt-6 block w-full rounded-md bg-zinc-900 py-3 text-center text-base font-semibold text-white hover:bg-zinc-800"
       >
-        Start workout (Phase 4)
-      </button>
+        Start workout
+      </Link>
     </main>
   );
 }
