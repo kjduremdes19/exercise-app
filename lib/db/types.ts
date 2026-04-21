@@ -44,3 +44,11 @@ export type MergedStep = {
 export type RoutineDetail = Routine & {
   steps: MergedStep[];
 };
+
+export type WorkoutSession = {
+  id: string;
+  routine_id: string | null;
+  routine_name: string;
+  started_at: string;
+  completed_at: string;
+};

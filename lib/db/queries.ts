@@ -1,7 +1,12 @@
 import { createHash } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
 import { mergeRoutineExercise } from "./merge";
-import type { Exercise, Routine, RoutineDetail } from "./types";
+import type {
+  Exercise,
+  Routine,
+  RoutineDetail,
+  WorkoutSession,
+} from "./types";
 
 export async function getRoutines(): Promise<Routine[]> {
   const supabase = await createClient();
@@ -54,6 +59,21 @@ export async function getRoutineBySlug(
   });
 
   return { ...(routine as Routine), steps };
+}
+
+export async function getSessionsForUser(
+  userId: string,
+  limit = 100,
+): Promise<WorkoutSession[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("workout_sessions")
+    .select("id, routine_id, routine_name, started_at, completed_at")
+    .eq("user_id", userId)
+    .order("completed_at", { ascending: false })
+    .limit(limit);
+  if (error) throw error;
+  return (data ?? []) as WorkoutSession[];
 }
 
 export async function getTodaysPick(

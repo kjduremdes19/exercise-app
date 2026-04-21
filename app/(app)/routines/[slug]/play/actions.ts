@@ -42,6 +42,23 @@ export async function completeSession(
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "Not authenticated." };
 
+  // Simple rate limit: reject if the user wrote >5 sessions in the last
+  // minute. Catches accidental double-submits and trivial abuse. RLS
+  // already scopes the count to this user.
+  const oneMinuteAgo = new Date(Date.now() - 60_000).toISOString();
+  const { count: recentCount, error: countErr } = await supabase
+    .from("workout_sessions")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", user.id)
+    .gte("created_at", oneMinuteAgo);
+  if (countErr) return { ok: false, error: countErr.message };
+  if ((recentCount ?? 0) >= 5) {
+    return {
+      ok: false,
+      error: "Too many sessions saved recently. Try again in a minute.",
+    };
+  }
+
   // Resolve the routine_id from the slug. Fall back to null if the routine
   // has been retired since the workout started — RLS-safe because the
   // catalog is public-read for authenticated users.
