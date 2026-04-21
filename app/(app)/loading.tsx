@@ -1,14 +1,15 @@
+import { ExerciseLogo } from "@/components/ExerciseLogo";
+
 export default function Loading() {
   return (
-    <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-12">
-      <div className="h-7 w-32 animate-pulse rounded bg-zinc-200" />
-      <div className="mt-4 h-28 animate-pulse rounded-xl bg-zinc-200" />
-      <div className="mt-6 h-5 w-28 animate-pulse rounded bg-zinc-200" />
-      <div className="mt-3 space-y-2">
-        <div className="h-20 animate-pulse rounded-lg bg-zinc-200" />
-        <div className="h-20 animate-pulse rounded-lg bg-zinc-200" />
-        <div className="h-20 animate-pulse rounded-lg bg-zinc-200" />
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-4 py-16">
+      <ExerciseLogo className="h-16 w-16 animate-lift text-zinc-900" />
+
+      <div className="mt-8 h-1.5 w-48 overflow-hidden rounded-full bg-zinc-200">
+        <div className="h-full w-1/3 animate-slide-bar rounded-full bg-zinc-900" />
       </div>
+
+      <p className="mt-4 text-sm text-zinc-500">Warming up…</p>
     </main>
   );
 }

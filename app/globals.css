@@ -8,3 +8,32 @@
 html {
   color-scheme: light;
 }
+
+/* Loading-screen animations — rhythmic, evoking a workout pace. */
+
+@keyframes lift {
+  0%, 100% {
+    transform: translateY(0) rotate(-8deg);
+  }
+  50% {
+    transform: translateY(-10%) rotate(8deg);
+  }
+}
+
+.animate-lift {
+  animation: lift 1.1s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes slide-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+.animate-slide-bar {
+  animation: slide-bar 1.2s ease-in-out infinite;
+}
