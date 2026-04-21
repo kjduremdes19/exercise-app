@@ -7,12 +7,18 @@ import { createClient } from "@/lib/supabase/server";
 export async function signup(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
+  const confirmPassword = String(formData.get("confirm_password") ?? "");
 
   if (!email || !password) {
     redirect(`/signup?error=${encodeURIComponent("Email and password are required.")}`);
   }
   if (password.length < 8) {
     redirect(`/signup?error=${encodeURIComponent("Password must be at least 8 characters.")}`);
+  }
+  // confirm_password is only sent by the client form; if present, it must match.
+  // Defense in depth against a client that skips the match check.
+  if (confirmPassword && confirmPassword !== password) {
+    redirect(`/signup?error=${encodeURIComponent("Passwords do not match.")}`);
   }
 
   const requestHeaders = await headers();

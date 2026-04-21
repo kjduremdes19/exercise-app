@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { signup } from "./actions";
+import { SignupForm } from "@/components/SignupForm";
 
 type SearchParams = Promise<{ error?: string }>;
 
@@ -24,38 +24,7 @@ export default async function SignupPage({
           </p>
         )}
 
-        <form action={signup} className="space-y-4">
-          <label className="block space-y-1 text-sm">
-            <span className="font-medium">Email</span>
-            <input
-              type="email"
-              name="email"
-              required
-              autoComplete="email"
-              className="block w-full rounded-md border border-zinc-300 px-3 py-2 text-base focus:border-zinc-900 focus:outline-none"
-            />
-          </label>
-
-          <label className="block space-y-1 text-sm">
-            <span className="font-medium">Password</span>
-            <input
-              type="password"
-              name="password"
-              required
-              minLength={8}
-              autoComplete="new-password"
-              className="block w-full rounded-md border border-zinc-300 px-3 py-2 text-base focus:border-zinc-900 focus:outline-none"
-            />
-            <span className="block text-xs text-zinc-500">At least 8 characters.</span>
-          </label>
-
-          <button
-            type="submit"
-            className="block w-full rounded-md bg-zinc-900 py-2 text-base font-medium text-white hover:bg-zinc-800"
-          >
-            Create account
-          </button>
-        </form>
+        <SignupForm />
 
         <p className="text-sm text-zinc-600">
           Already have an account?{" "}

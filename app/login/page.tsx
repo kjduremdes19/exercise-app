@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PasswordInput } from "@/components/PasswordInput";
 import { login } from "./actions";
 
 type SearchParams = Promise<{ error?: string; next?: string }>;
@@ -38,16 +39,12 @@ export default async function LoginPage({
             />
           </label>
 
-          <label className="block space-y-1 text-sm">
-            <span className="font-medium">Password</span>
-            <input
-              type="password"
-              name="password"
-              required
-              autoComplete="current-password"
-              className="block w-full rounded-md border border-zinc-300 px-3 py-2 text-base focus:border-zinc-900 focus:outline-none"
-            />
-          </label>
+          <PasswordInput
+            label="Password"
+            name="password"
+            required
+            autoComplete="current-password"
+          />
 
           <button
             type="submit"
