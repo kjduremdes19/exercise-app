@@ -8,9 +8,10 @@ type Props = {
   currentSet: number;
   totalSets: number;
   onComplete: () => void;
+  onPause: () => void;
 };
 
-export function StrengthStep({ step, currentSet, totalSets, onComplete }: Props) {
+export function StrengthStep({ step, currentSet, totalSets, onComplete, onPause }: Props) {
   const reps = step.reps ?? 0;
   return (
     <div className="flex flex-1 flex-col items-center px-4 py-6">
@@ -33,6 +34,13 @@ export function StrengthStep({ step, currentSet, totalSets, onComplete }: Props)
         className="mt-8 w-full max-w-xs rounded-md bg-zinc-900 py-4 text-base font-semibold text-white hover:bg-zinc-800"
       >
         Set done →
+      </button>
+      <button
+        type="button"
+        onClick={onPause}
+        className="mt-3 text-sm text-zinc-500 underline-offset-2 hover:text-zinc-700 hover:underline"
+      >
+        Pause for now
       </button>
     </div>
   );

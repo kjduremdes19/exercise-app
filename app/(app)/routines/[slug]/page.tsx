@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { RoutineCTA } from "@/components/RoutineCTA";
 import { RoutineExerciseAccordion } from "@/components/RoutineExerciseAccordion";
 import { getRoutineBySlug } from "@/lib/db/queries";
 
@@ -39,12 +40,7 @@ export default async function RoutineDetailPage({
         <RoutineExerciseAccordion steps={routine.steps} />
       </div>
 
-      <Link
-        href={`/routines/${routine.slug}/play`}
-        className="mt-6 block w-full rounded-md bg-zinc-900 py-3 text-center text-base font-semibold text-white hover:bg-zinc-800"
-      >
-        Start workout
-      </Link>
+      <RoutineCTA routineSlug={routine.slug} steps={routine.steps} />
     </main>
   );
 }

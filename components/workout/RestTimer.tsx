@@ -9,6 +9,7 @@ type Props = {
   nextLabel: string;
   onDone: () => void;
   onSkip: () => void;
+  onPause: () => void;
 };
 
 export function RestTimer({
@@ -16,6 +17,7 @@ export function RestTimer({
   nextLabel,
   onDone,
   onSkip,
+  onPause,
 }: Props) {
   const { remainingSec, done } = useCountdown(durationSec);
 
@@ -48,6 +50,13 @@ export function RestTimer({
         className="mt-10 w-full max-w-xs rounded-md border border-zinc-300 py-3 text-base font-medium text-zinc-700 hover:bg-zinc-50"
       >
         Skip rest
+      </button>
+      <button
+        type="button"
+        onClick={onPause}
+        className="mt-3 text-sm text-zinc-500 underline-offset-2 hover:text-zinc-700 hover:underline"
+      >
+        Pause for now
       </button>
     </div>
   );

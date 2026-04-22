@@ -1,47 +1,118 @@
 "use client";
 
-import { useCallback, useReducer, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { DoneScreen } from "./DoneScreen";
 import { RestTimer } from "./RestTimer";
 import { StrengthStep } from "./StrengthStep";
 import { TimedStep } from "./TimedStep";
 import type { RoutineDetail } from "@/lib/db/types";
 import { initialState, reduce, type Action, type State } from "@/lib/workout/machine";
+import { clearDraft, readDraft, saveDraft } from "@/lib/workout/draft";
 import { primeAudio } from "@/lib/workout/sound";
 import { useWakeLock } from "@/lib/workout/useWakeLock";
 import type { CompleteSessionInput } from "@/app/(app)/routines/[slug]/play/actions";
 
 type Props = {
   routine: RoutineDetail;
+  resume?: boolean;
 };
 
 type PlayerStatus = "idle" | "playing";
 
-export function WorkoutPlayer({ routine }: Props) {
-  const [status, setStatus] = useState<PlayerStatus>("idle");
-  const [startedAt, setStartedAt] = useState<string | null>(null);
+/**
+ * Validates a stored draft against the current routine. Drops the draft if
+ * the routine has changed in a way that would make the saved indices invalid.
+ */
+function restoreFromDraft(
+  routine: RoutineDetail,
+): { state: State; startedAt: string } | null {
+  const draft = readDraft();
+  if (!draft) return null;
+  if (draft.routineSlug !== routine.slug) return null;
+  if (draft.state.currentIndex < 0 || draft.state.currentIndex >= routine.steps.length) {
+    clearDraft();
+    return null;
+  }
+  const step = routine.steps[draft.state.currentIndex];
+  const totalSets = step.sets ?? 1;
+  if (draft.state.currentSet < 1 || draft.state.currentSet > totalSets) {
+    clearDraft();
+    return null;
+  }
+  return {
+    state: { ...draft.state },
+    startedAt: draft.startedAt,
+  };
+}
+
+export function WorkoutPlayer({ routine, resume = false }: Props) {
+  const router = useRouter();
+
+  // Compute the starting state once. If resume is requested AND a valid draft
+  // exists, jump straight into the saved spot. Otherwise normal idle flow.
+  const [bootstrap] = useState(() =>
+    resume ? restoreFromDraft(routine) : null,
+  );
+
+  const [status, setStatus] = useState<PlayerStatus>(
+    bootstrap ? "playing" : "idle",
+  );
+  const [startedAt, setStartedAt] = useState<string | null>(
+    bootstrap?.startedAt ?? null,
+  );
 
   const [state, rawDispatch] = useReducer(
     (s: State, a: Action) => reduce(s, a, routine.steps),
-    initialState(),
+    bootstrap?.state ?? initialState(),
   );
 
-  // runKey bumps every transition so timers reset their anchors cleanly.
   const [runKey, setRunKey] = useState(0);
   const dispatch = useCallback((a: Action) => {
     rawDispatch(a);
     setRunKey((k) => k + 1);
   }, []);
 
-  // Wake lock held for the lifetime of the player (idle + playing).
-  // Cheap no-op if the browser lacks the API.
   useWakeLock();
+
+  // Auto-save: any time we're mid-workout (active or resting), persist a fresh
+  // draft. On done, clear it (covered separately below to avoid race with the
+  // session insert).
+  useEffect(() => {
+    if (status !== "playing") return;
+    if (state.phase === "done") return;
+    if (!startedAt) return;
+    saveDraft({
+      routineSlug: routine.slug,
+      startedAt,
+      state: {
+        currentIndex: state.currentIndex,
+        currentSet: state.currentSet,
+        phase: state.phase,
+      },
+      savedAt: new Date().toISOString(),
+    });
+  }, [status, state, startedAt, routine.slug]);
+
+  // Clear the draft exactly once when the workout completes.
+  const cleared = useRef(false);
+  useEffect(() => {
+    if (state.phase === "done" && !cleared.current) {
+      cleared.current = true;
+      clearDraft();
+    }
+  }, [state.phase]);
 
   const handleStart = useCallback(() => {
     primeAudio();
     setStartedAt(new Date().toISOString());
     setStatus("playing");
   }, []);
+
+  const handlePause = useCallback(() => {
+    // The auto-save effect has already persisted the latest state; just leave.
+    router.push("/");
+  }, [router]);
 
   // ---------------------------------------------------------------------
   // Idle screen — gives us the user gesture for audio + wake lock.
@@ -99,11 +170,11 @@ export function WorkoutPlayer({ routine }: Props) {
         nextLabel={nextLabel}
         onDone={() => dispatch({ type: "TIMER_DONE" })}
         onSkip={() => dispatch({ type: "NEXT" })}
+        onPause={handlePause}
       />
     );
   }
 
-  // active
   if (step.kind === "strength") {
     return (
       <StrengthStep
@@ -111,6 +182,7 @@ export function WorkoutPlayer({ routine }: Props) {
         currentSet={state.currentSet}
         totalSets={totalSets}
         onComplete={() => dispatch({ type: "NEXT" })}
+        onPause={handlePause}
       />
     );
   }
@@ -122,6 +194,7 @@ export function WorkoutPlayer({ routine }: Props) {
       totalSets={totalSets}
       onComplete={() => dispatch({ type: "TIMER_DONE" })}
       onSkip={() => dispatch({ type: "NEXT" })}
+      onPause={handlePause}
     />
   );
 }
@@ -156,4 +229,3 @@ function buildSessionPayload({
     },
   };
 }
-

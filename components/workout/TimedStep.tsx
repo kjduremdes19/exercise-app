@@ -12,6 +12,7 @@ type Props = {
   totalSets: number;
   onComplete: () => void;
   onSkip: () => void;
+  onPause: () => void;
 };
 
 export function TimedStep({
@@ -20,6 +21,7 @@ export function TimedStep({
   totalSets,
   onComplete,
   onSkip,
+  onPause,
 }: Props) {
   const duration = step.duration_sec ?? 0;
   const { remainingSec, done } = useCountdown(duration);
@@ -58,6 +60,13 @@ export function TimedStep({
         className="mt-8 w-full max-w-xs rounded-md border border-zinc-300 py-3 text-base font-medium text-zinc-700 hover:bg-zinc-50"
       >
         Skip
+      </button>
+      <button
+        type="button"
+        onClick={onPause}
+        className="mt-3 text-sm text-zinc-500 underline-offset-2 hover:text-zinc-700 hover:underline"
+      >
+        Pause for now
       </button>
     </div>
   );

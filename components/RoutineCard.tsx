@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Routine, RoutineStatus } from "@/lib/db/types";
+import { PausedBadge } from "./PausedBadge";
 
 type Props = {
   routine: Routine;
@@ -30,6 +31,7 @@ export function RoutineCard({ routine, status = "never" }: Props) {
           {routine.name}
         </h3>
         <div className="flex shrink-0 items-center gap-2">
+          <PausedBadge slug={routine.slug} />
           {status === "today" && (
             <span className="rounded-full bg-zinc-200 px-2 py-0.5 text-xs font-medium text-zinc-700">
               Completed today

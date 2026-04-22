@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Routine, RoutineStatus } from "@/lib/db/types";
+import { PausedBadge } from "./PausedBadge";
 
 type Props = {
   routine: Routine;
@@ -24,6 +25,7 @@ export function TodaysPickCard({ routine, status = "never" }: Props) {
       </p>
       <div className="mt-2 flex items-center gap-2">
         <h2 className="text-xl font-semibold">{routine.name}</h2>
+        <PausedBadge slug={routine.slug} />
         {status === "today" && (
           <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-800">
             ✓ Completed today
