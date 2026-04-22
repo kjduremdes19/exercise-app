@@ -51,6 +51,7 @@ export function useCountdown(durationSec: number) {
   }, [durationSec, start]);
 
   return {
+    remainingMs,
     remainingSec: Math.ceil(remainingMs / 1000),
     done: remainingMs <= 0,
   };

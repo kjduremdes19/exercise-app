@@ -6,11 +6,11 @@ import {
 
 export function RoutineExerciseAccordion({ steps }: { steps: MergedStep[] }) {
   return (
-    <ol className="divide-y divide-zinc-200 overflow-hidden rounded-lg border border-zinc-200 bg-white">
+    <ol className="divide-y divide-zinc-200 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
       {steps.map((step) => (
         <li key={step.position}>
           <details className="group">
-            <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3 hover:bg-zinc-50">
+            <summary className="flex cursor-pointer list-none items-center gap-3 px-5 py-4 hover:bg-zinc-50">
               <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-xs font-semibold text-zinc-700">
                 {step.position + 1}
               </span>
@@ -24,7 +24,7 @@ export function RoutineExerciseAccordion({ steps }: { steps: MergedStep[] }) {
                 ▾
               </span>
             </summary>
-            <div className="border-t border-zinc-100 bg-zinc-50/40 px-4 py-5">
+            <div className="border-t border-zinc-100 bg-zinc-50/40 px-5 py-6">
               <ExerciseCardExpanded exercise={step.exercise} step={step} />
             </div>
           </details>

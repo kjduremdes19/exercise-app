@@ -9,7 +9,7 @@ type Props = {
 
 export function RoutineCard({ routine, status = "never" }: Props) {
   const baseClasses =
-    "block rounded-lg border px-4 py-4 transition hover:shadow-sm";
+    "block rounded-2xl border px-5 py-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-md";
   const stateClasses =
     status === "today"
       ? "border-zinc-200 bg-zinc-100 opacity-70 hover:border-zinc-300"

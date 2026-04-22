@@ -9,11 +9,11 @@ type Props = {
 
 export function TodaysPickCard({ routine, status = "never" }: Props) {
   const baseClasses =
-    "block rounded-xl border px-5 py-5 text-white transition";
+    "block rounded-2xl border px-6 py-6 text-white shadow-lg shadow-zinc-900/25 transition duration-200 hover:scale-[1.01] hover:shadow-xl";
   const stateClasses =
     status === "today"
-      ? "border-zinc-700 bg-zinc-700 hover:bg-zinc-600"
-      : "border-zinc-900 bg-zinc-900 hover:bg-zinc-800";
+      ? "border-zinc-700 bg-gradient-to-tr from-zinc-800 via-zinc-700 to-amber-900/40"
+      : "border-zinc-900 bg-gradient-to-tr from-zinc-950 via-zinc-900 to-amber-700/30";
 
   return (
     <Link href={`/routines/${routine.slug}`} className={`${baseClasses} ${stateClasses}`}>
