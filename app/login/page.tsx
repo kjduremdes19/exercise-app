@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { PasswordInput } from "@/components/PasswordInput";
 import { login } from "./actions";
@@ -14,6 +15,16 @@ export default async function LoginPage({
   return (
     <main className="flex flex-1 items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm space-y-6">
+        <div className="flex flex-col items-center">
+          <Image
+            src="/brand/fitwork-logo.png"
+            alt="FITWORK"
+            width={200}
+            height={200}
+            priority
+            className="h-auto w-64"
+          />
+        </div>
         <h1 className="text-2xl font-semibold tracking-tight">Log in</h1>
 
         {error && (
