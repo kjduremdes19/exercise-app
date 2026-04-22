@@ -6,7 +6,9 @@ import type {
   MuscleGroup,
   Routine,
   RoutineDetail,
+  SessionSnapshot,
   WorkoutSession,
+  WorkoutSessionDetail,
 } from "./types";
 
 export async function getRoutines(): Promise<Routine[]> {
@@ -60,6 +62,40 @@ export async function getRoutineBySlug(
   });
 
   return { ...(routine as Routine), steps };
+}
+
+export async function getSessionById(
+  userId: string,
+  id: string,
+): Promise<WorkoutSessionDetail | null> {
+  // Reject obviously-invalid UUIDs before they hit the DB (avoids a 400).
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+    return null;
+  }
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("workout_sessions")
+    .select(
+      "id, routine_id, routine_name, routine_snapshot, started_at, completed_at, routine:routines(slug)",
+    )
+    .eq("user_id", userId)
+    .eq("id", id)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return null;
+
+  const rel = (data as { routine: { slug: string } | { slug: string }[] | null }).routine;
+  const routine_slug = Array.isArray(rel) ? (rel[0]?.slug ?? null) : (rel?.slug ?? null);
+
+  return {
+    id: data.id,
+    routine_id: data.routine_id,
+    routine_name: data.routine_name,
+    started_at: data.started_at,
+    completed_at: data.completed_at,
+    routine_snapshot: data.routine_snapshot as SessionSnapshot,
+    routine_slug,
+  };
 }
 
 export async function getSessionsForUser(

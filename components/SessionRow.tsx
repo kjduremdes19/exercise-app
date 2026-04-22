@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { WorkoutSession } from "@/lib/db/types";
 
 export function SessionRow({ session }: { session: WorkoutSession }) {
@@ -14,16 +15,21 @@ export function SessionRow({ session }: { session: WorkoutSession }) {
   }).format(completed);
 
   return (
-    <li className="flex items-baseline justify-between gap-3 border-b border-zinc-200 px-4 py-3 last:border-b-0">
-      <div className="min-w-0">
-        <p className="truncate font-medium text-zinc-900">
-          {session.routine_name}
-        </p>
-        <p className="mt-0.5 text-xs text-zinc-500" suppressHydrationWarning>
-          {localDate}
-        </p>
-      </div>
-      <p className="shrink-0 text-sm text-zinc-600">{elapsedMin} min</p>
+    <li className="border-b border-zinc-200 last:border-b-0">
+      <Link
+        href={`/history/${session.id}`}
+        className="flex items-baseline justify-between gap-3 px-4 py-3 hover:bg-zinc-50"
+      >
+        <div className="min-w-0">
+          <p className="truncate font-medium text-zinc-900">
+            {session.routine_name}
+          </p>
+          <p className="mt-0.5 text-xs text-zinc-500" suppressHydrationWarning>
+            {localDate}
+          </p>
+        </div>
+        <p className="shrink-0 text-sm text-zinc-600">{elapsedMin} min</p>
+      </Link>
     </li>
   );
 }

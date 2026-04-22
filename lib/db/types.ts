@@ -81,3 +81,24 @@ export type WorkoutSession = {
   started_at: string;
   completed_at: string;
 };
+
+export type SessionSnapshotStep = {
+  position: number;
+  exercise_slug: string;
+  exercise_name: string;
+  kind: ExerciseKind;
+  sets: number | null;
+  reps: number | null;
+  duration_sec: number | null;
+  rest_sec: number;
+};
+
+export type SessionSnapshot = {
+  routine_name: string;
+  steps: SessionSnapshotStep[];
+};
+
+export type WorkoutSessionDetail = WorkoutSession & {
+  routine_snapshot: SessionSnapshot;
+  routine_slug: string | null;
+};
