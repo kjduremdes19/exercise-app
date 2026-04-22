@@ -35,7 +35,7 @@ export async function getRoutineBySlug(
   const { data: rows, error: reErr } = await supabase
     .from("routine_exercises")
     .select(
-      "position, sets, reps, duration_sec, rest_sec, exercise:exercises(id, slug, name, description, kind, category, equipment, default_sets, default_reps, default_duration_sec, default_rest_sec)",
+      "position, sets, reps, duration_sec, rest_sec, exercise:exercises(id, slug, name, description, kind, category, equipment, default_sets, default_reps, default_duration_sec, default_rest_sec, instructions)",
     )
     .eq("routine_id", routine.id)
     .order("position", { ascending: true });

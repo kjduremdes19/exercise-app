@@ -27,6 +27,7 @@ export type Exercise = {
   default_reps: number | null;
   default_duration_sec: number | null;
   default_rest_sec: number | null;
+  instructions: string[];
 };
 
 export type MuscleGroup =

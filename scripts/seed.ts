@@ -53,6 +53,7 @@ async function seed(): Promise<ChangeCounts> {
         default_reps: e.default_reps ?? null,
         default_duration_sec: e.default_duration_sec ?? null,
         default_rest_sec: e.default_rest_sec ?? 0,
+        instructions: e.instructions ?? [],
       })),
       { onConflict: "slug" },
     )

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ExerciseList } from "@/components/ExerciseList";
+import { RoutineExerciseAccordion } from "@/components/RoutineExerciseAccordion";
 import { getRoutineBySlug } from "@/lib/db/queries";
 
 export default async function RoutineDetailPage({
@@ -36,7 +36,7 @@ export default async function RoutineDetailPage({
       )}
 
       <div className="mt-6">
-        <ExerciseList steps={routine.steps} />
+        <RoutineExerciseAccordion steps={routine.steps} />
       </div>
 
       <Link

@@ -37,3 +37,46 @@ html {
 .animate-slide-bar {
   animation: slide-bar 1.2s ease-in-out infinite;
 }
+
+/* Hide the default disclosure triangle on <summary> in WebKit; layout
+   provides its own caret. (Tailwind's list-none handles other engines.) */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Exercise card animations — each animation crossfades two SVG poses
+   (start position ↔ end position) on a continuous loop. Static (non-animated)
+   state shows pose A so the feature still reads as an illustration when motion
+   is paused. */
+
+.ex-anim__pose-a {
+  opacity: 1;
+  animation: ex-anim-pose-a 1.6s ease-in-out infinite;
+}
+
+.ex-anim__pose-b {
+  opacity: 0;
+  animation: ex-anim-pose-b 1.6s ease-in-out infinite;
+}
+
+@keyframes ex-anim-pose-a {
+  0%, 35%, 100% { opacity: 1; }
+  50%, 85% { opacity: 0; }
+}
+
+@keyframes ex-anim-pose-b {
+  0%, 35%, 100% { opacity: 0; }
+  50%, 85% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-lift,
+  .animate-slide-bar,
+  .ex-anim__pose-a,
+  .ex-anim__pose-b {
+    animation: none;
+  }
+  .ex-anim__pose-b {
+    opacity: 0;
+  }
+}

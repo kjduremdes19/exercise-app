@@ -24,6 +24,7 @@ export type ExerciseSeed = {
   default_reps?: number;
   default_duration_sec?: number;
   default_rest_sec?: number;
+  instructions?: string[];
 };
 
 export type RoutineExerciseSeed = {
