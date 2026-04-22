@@ -47,6 +47,8 @@ async function seed(): Promise<ChangeCounts> {
         name: e.name,
         description: e.description ?? "",
         kind: e.kind,
+        category: e.category ?? null,
+        equipment: e.equipment ?? null,
         default_sets: e.default_sets ?? null,
         default_reps: e.default_reps ?? null,
         default_duration_sec: e.default_duration_sec ?? null,
@@ -72,6 +74,7 @@ async function seed(): Promise<ChangeCounts> {
         name: r.name,
         description: r.description ?? "",
         estimated_duration_min: r.estimated_duration_min ?? null,
+        muscle_group: r.muscle_group ?? null,
       })),
       { onConflict: "slug" },
     )

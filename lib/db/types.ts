@@ -1,16 +1,41 @@
 export type ExerciseKind = "strength" | "timed";
 
+export type ExerciseCategory =
+  | "strength"
+  | "pilates"
+  | "yoga"
+  | "cardio"
+  | "mobility";
+
+export type ExerciseEquipment =
+  | "none"
+  | "dumbbell"
+  | "barbell"
+  | "kettlebell"
+  | "mat"
+  | "machine";
+
 export type Exercise = {
   id: string;
   slug: string;
   name: string;
   description: string;
   kind: ExerciseKind;
+  category: ExerciseCategory | null;
+  equipment: ExerciseEquipment | null;
   default_sets: number | null;
   default_reps: number | null;
   default_duration_sec: number | null;
   default_rest_sec: number | null;
 };
+
+export type MuscleGroup =
+  | "push"
+  | "pull"
+  | "legs"
+  | "full-body"
+  | "core"
+  | "cardio";
 
 export type Routine = {
   id: string;
@@ -18,6 +43,7 @@ export type Routine = {
   name: string;
   description: string;
   estimated_duration_min: number | null;
+  muscle_group: MuscleGroup | null;
 };
 
 export type RoutineExerciseRow = {
@@ -44,6 +70,8 @@ export type MergedStep = {
 export type RoutineDetail = Routine & {
   steps: MergedStep[];
 };
+
+export type RoutineStatus = "never" | "past" | "today";
 
 export type WorkoutSession = {
   id: string;
