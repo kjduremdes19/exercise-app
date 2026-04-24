@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import type { StepLog } from "@/lib/db/types";
 
 const KEY = "workout_draft_v1";
 const STALE_MS = 14 * 24 * 60 * 60 * 1000;
@@ -14,6 +15,9 @@ export type WorkoutDraft = {
   startedAt: string;
   state: DraftState;
   savedAt: string;
+  // Optional: in-progress per-set logs. Older drafts (pre-set-logs) won't have
+  // this field; readDraft tolerates its absence.
+  setLogs?: StepLog[];
 };
 
 function hasStorage(): boolean {

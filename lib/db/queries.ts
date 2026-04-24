@@ -6,6 +6,7 @@ import type {
   MuscleGroup,
   Routine,
   RoutineDetail,
+  SessionSetLogs,
   SessionSnapshot,
   WorkoutSession,
   WorkoutSessionDetail,
@@ -76,7 +77,7 @@ export async function getSessionById(
   const { data, error } = await supabase
     .from("workout_sessions")
     .select(
-      "id, routine_id, routine_name, routine_snapshot, started_at, completed_at, routine:routines(slug)",
+      "id, routine_id, routine_name, routine_snapshot, set_logs, started_at, completed_at, routine:routines(slug)",
     )
     .eq("user_id", userId)
     .eq("id", id)
@@ -94,6 +95,7 @@ export async function getSessionById(
     started_at: data.started_at,
     completed_at: data.completed_at,
     routine_snapshot: data.routine_snapshot as SessionSnapshot,
+    set_logs: (data.set_logs as SessionSetLogs | null) ?? null,
     routine_slug,
   };
 }

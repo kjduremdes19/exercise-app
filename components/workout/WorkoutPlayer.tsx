@@ -6,7 +6,7 @@ import { DoneScreen } from "./DoneScreen";
 import { RestTimer } from "./RestTimer";
 import { StrengthStep } from "./StrengthStep";
 import { TimedStep } from "./TimedStep";
-import type { RoutineDetail } from "@/lib/db/types";
+import type { RoutineDetail, SetLog, StepLog } from "@/lib/db/types";
 import { initialState, reduce, type Action, type State } from "@/lib/workout/machine";
 import { clearDraft, readDraft, saveDraft } from "@/lib/workout/draft";
 import { primeAudio } from "@/lib/workout/sound";
@@ -26,7 +26,7 @@ type PlayerStatus = "idle" | "playing";
  */
 function restoreFromDraft(
   routine: RoutineDetail,
-): { state: State; startedAt: string } | null {
+): { state: State; startedAt: string; setLogs: StepLog[] } | null {
   const draft = readDraft();
   if (!draft) return null;
   if (draft.routineSlug !== routine.slug) return null;
@@ -43,6 +43,7 @@ function restoreFromDraft(
   return {
     state: { ...draft.state },
     startedAt: draft.startedAt,
+    setLogs: draft.setLogs ?? [],
   };
 }
 
@@ -66,6 +67,23 @@ export function WorkoutPlayer({ routine, resume = false }: Props) {
     (s: State, a: Action) => reduce(s, a, routine.steps),
     bootstrap?.state ?? initialState(),
   );
+
+  // Per-set logs collected during this workout. Keyed by step position; each
+  // entry is an append-only array of SetLog (sets[0] is set 1, etc).
+  const [setLogs, setSetLogs] = useState<StepLog[]>(bootstrap?.setLogs ?? []);
+
+  const handleLogSet = useCallback((position: number, log: SetLog) => {
+    setSetLogs((prev) => {
+      const next = [...prev];
+      const idx = next.findIndex((s) => s.position === position);
+      if (idx === -1) {
+        next.push({ position, sets: [log] });
+      } else {
+        next[idx] = { position, sets: [...next[idx].sets, log] };
+      }
+      return next;
+    });
+  }, []);
 
   const [runKey, setRunKey] = useState(0);
   const dispatch = useCallback((a: Action) => {
@@ -91,8 +109,9 @@ export function WorkoutPlayer({ routine, resume = false }: Props) {
         phase: state.phase,
       },
       savedAt: new Date().toISOString(),
+      setLogs,
     });
-  }, [status, state, startedAt, routine.slug]);
+  }, [status, state, startedAt, routine.slug, setLogs]);
 
   // Clear the draft exactly once when the workout completes.
   const cleared = useRef(false);
@@ -145,6 +164,7 @@ export function WorkoutPlayer({ routine, resume = false }: Props) {
     const payload = buildSessionPayload({
       routine,
       startedAt: startedAt ?? new Date().toISOString(),
+      setLogs,
     });
     return <DoneScreen payload={payload} routineName={routine.name} />;
   }
@@ -176,12 +196,21 @@ export function WorkoutPlayer({ routine, resume = false }: Props) {
   }
 
   if (step.kind === "strength") {
+    // Pre-fill weight with the most recent value already logged for this same
+    // step in this session, so subsequent sets only need a tap.
+    const lastLogForStep = setLogs.find((s) => s.position === step.position);
+    const lastWeight =
+      lastLogForStep?.sets[lastLogForStep.sets.length - 1]?.weight ?? null;
     return (
       <StrengthStep
         step={step}
         currentSet={state.currentSet}
         totalSets={totalSets}
-        onComplete={() => dispatch({ type: "NEXT" })}
+        lastWeight={lastWeight}
+        onComplete={(log) => {
+          handleLogSet(step.position, log);
+          dispatch({ type: "NEXT" });
+        }}
         onPause={handlePause}
       />
     );
@@ -206,9 +235,11 @@ export function WorkoutPlayer({ routine, resume = false }: Props) {
 function buildSessionPayload({
   routine,
   startedAt,
+  setLogs,
 }: {
   routine: RoutineDetail;
   startedAt: string;
+  setLogs: StepLog[];
 }): CompleteSessionInput {
   return {
     routine_slug: routine.slug,
@@ -227,5 +258,6 @@ function buildSessionPayload({
         rest_sec: s.rest_sec,
       })),
     },
+    set_logs: setLogs.length > 0 ? { steps: setLogs } : null,
   };
 }

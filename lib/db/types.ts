@@ -98,7 +98,22 @@ export type SessionSnapshot = {
   steps: SessionSnapshotStep[];
 };
 
+export type SetLog = {
+  reps: number | null;
+  weight: number | null;
+};
+
+export type StepLog = {
+  position: number;
+  sets: SetLog[];
+};
+
+export type SessionSetLogs = {
+  steps: StepLog[];
+};
+
 export type WorkoutSessionDetail = WorkoutSession & {
   routine_snapshot: SessionSnapshot;
   routine_slug: string | null;
+  set_logs: SessionSetLogs | null;
 };

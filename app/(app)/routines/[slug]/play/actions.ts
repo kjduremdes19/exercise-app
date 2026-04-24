@@ -15,6 +15,20 @@ const SnapshotStepSchema = z.object({
   rest_sec: z.number().int().nonnegative(),
 });
 
+const SetLogSchema = z.object({
+  reps: z.number().int().nonnegative().nullable(),
+  weight: z.number().nonnegative().nullable(),
+});
+
+const StepLogSchema = z.object({
+  position: z.number().int().nonnegative(),
+  sets: z.array(SetLogSchema),
+});
+
+const SessionSetLogsSchema = z.object({
+  steps: z.array(StepLogSchema),
+});
+
 const CompleteSessionSchema = z.object({
   routine_slug: z.string().min(1),
   started_at: z.string().datetime(),
@@ -23,6 +37,7 @@ const CompleteSessionSchema = z.object({
     routine_name: z.string().min(1),
     steps: z.array(SnapshotStepSchema).min(1),
   }),
+  set_logs: SessionSetLogsSchema.nullable().optional(),
 });
 
 export type CompleteSessionInput = z.infer<typeof CompleteSessionSchema>;
@@ -73,6 +88,7 @@ export async function completeSession(
     routine_id: routine?.id ?? null,
     routine_name: data.snapshot.routine_name,
     routine_snapshot: data.snapshot,
+    set_logs: data.set_logs ?? null,
     started_at: data.started_at,
     completed_at: data.completed_at,
   });

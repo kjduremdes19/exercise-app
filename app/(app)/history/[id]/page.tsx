@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getSessionById } from "@/lib/db/queries";
 import { createClient } from "@/lib/supabase/server";
-import type { SessionSnapshotStep } from "@/lib/db/types";
+import type { SessionSnapshotStep, StepLog } from "@/lib/db/types";
 
 export const dynamic = "force-dynamic";
 
@@ -46,26 +46,37 @@ export default async function HistoryDetailPage({
       </p>
 
       <ol className="mt-6 divide-y divide-zinc-200 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
-        {session.routine_snapshot.steps.map((s) => (
-          <li
-            key={s.position}
-            className="flex items-baseline justify-between gap-3 px-5 py-4"
-          >
-            <div className="min-w-0">
-              <p className="font-medium text-zinc-900">
-                {s.position + 1}. {s.exercise_name}
-              </p>
+        {session.routine_snapshot.steps.map((s) => {
+          const stepLog = session.set_logs?.steps.find(
+            (l) => l.position === s.position,
+          );
+          return (
+            <li key={s.position} className="px-5 py-4">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="font-medium text-zinc-900">
+                  {s.position + 1}. {s.exercise_name}
+                </p>
+                {s.rest_sec > 0 && (
+                  <p className="shrink-0 text-xs text-zinc-500">
+                    rest {s.rest_sec}s
+                  </p>
+                )}
+              </div>
               <p className="mt-0.5 text-xs text-zinc-500">
                 {formatStepParams(s)}
               </p>
-            </div>
-            {s.rest_sec > 0 && (
-              <p className="shrink-0 text-xs text-zinc-500">
-                rest {s.rest_sec}s
-              </p>
-            )}
-          </li>
-        ))}
+              {stepLog && stepLog.sets.length > 0 && (
+                <ul className="mt-2 space-y-0.5 text-xs text-zinc-600">
+                  {stepLog.sets.map((setLog, i) => (
+                    <li key={i} className="tabular-nums">
+                      Set {i + 1}: {formatSetLog(setLog)}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          );
+        })}
       </ol>
 
       {session.routine_slug && (
@@ -78,6 +89,13 @@ export default async function HistoryDetailPage({
       )}
     </main>
   );
+}
+
+function formatSetLog(setLog: StepLog["sets"][number]): string {
+  const parts: string[] = [];
+  if (setLog.reps !== null) parts.push(`${setLog.reps} reps`);
+  if (setLog.weight !== null) parts.push(`${setLog.weight} lbs`);
+  return parts.length > 0 ? parts.join(" · ") : "—";
 }
 
 function formatStepParams(s: SessionSnapshotStep): string {
