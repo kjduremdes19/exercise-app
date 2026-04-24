@@ -462,4 +462,152 @@ export const exercises: ExerciseSeed[] = [
       "Alternate legs. Don't let the hips drop or twist as the leg moves.",
     ],
   },
+
+  // -----------------------------------------------------------------------
+  // Yoga
+  // -----------------------------------------------------------------------
+  {
+    slug: "downward-dog",
+    name: "Downward-facing dog",
+    description:
+      "Inverted V-shape: hands and feet on the mat, hips high. Press the floor away, lengthen the spine, and let the heels reach toward the mat.",
+    kind: "timed",
+    category: "yoga",
+    equipment: "mat",
+    default_duration_sec: 30,
+    default_rest_sec: 20,
+    instructions: [
+      "Start on hands and knees, wrists under shoulders, knees under hips.",
+      "Tuck your toes and lift your hips up and back, straightening your legs into an inverted V.",
+      "Press the mat away through your palms and lengthen your spine — heels reaching toward the mat but not forced down.",
+      "Breathe steadily for the full hold; pedal the feet if needed to find ease.",
+    ],
+  },
+  {
+    slug: "warrior-ii",
+    name: "Warrior II",
+    description:
+      "Wide stance, front knee bent over ankle. Arms extended parallel to the floor, gaze over the front hand. Hold each side.",
+    kind: "timed",
+    category: "yoga",
+    equipment: "mat",
+    default_duration_sec: 30,
+    default_rest_sec: 20,
+    instructions: [
+      "Step feet wide apart, front foot pointing forward, back foot turned in slightly.",
+      "Bend the front knee to stack it over your ankle — aim for a 90° bend.",
+      "Extend arms parallel to the floor, front arm forward, back arm behind.",
+      "Gaze over the front hand and hold. Switch sides on the next set.",
+    ],
+  },
+  {
+    slug: "childs-pose",
+    name: "Child's pose",
+    description:
+      "Kneel with big toes together, knees wide. Sink hips toward heels, stretch arms forward on the mat, and rest your forehead down. Reset pose.",
+    kind: "timed",
+    category: "yoga",
+    equipment: "mat",
+    default_duration_sec: 30,
+    default_rest_sec: 10,
+    instructions: [
+      "Kneel on the mat with big toes touching and knees out wide.",
+      "Sink your hips back toward your heels.",
+      "Walk your hands forward and rest your forehead on the mat.",
+      "Breathe deeply into the back of your ribcage for the full hold.",
+    ],
+  },
+  {
+    slug: "cat-cow",
+    name: "Cat-cow",
+    description:
+      "On hands and knees, alternate between arching the spine (cow) and rounding it (cat) with your breath. One rep is one full cycle.",
+    kind: "strength",
+    category: "yoga",
+    equipment: "mat",
+    default_sets: 2,
+    default_reps: 10,
+    default_rest_sec: 15,
+    instructions: [
+      "Start on hands and knees with wrists under shoulders and knees under hips.",
+      "Inhale to drop your belly, lift your chest and tailbone (cow).",
+      "Exhale to round your spine, tuck your chin and tailbone (cat).",
+      "Move with your breath — one inhale + exhale is one rep.",
+    ],
+  },
+  {
+    slug: "tree-pose",
+    name: "Tree pose",
+    description:
+      "Stand on one leg, place the other foot on the inner calf or thigh (not the knee). Find a focal point and press hands to heart center. Hold each side.",
+    kind: "timed",
+    category: "yoga",
+    equipment: "mat",
+    default_duration_sec: 20,
+    default_rest_sec: 10,
+    instructions: [
+      "Stand tall on one leg, shoulders stacked over hips.",
+      "Place the sole of the other foot on your inner calf or inner thigh — avoid the knee.",
+      "Press hands together at your chest and fix your gaze on a still point.",
+      "Hold for the full duration, breathing steadily. Switch sides on the next set.",
+    ],
+  },
+
+  // -----------------------------------------------------------------------
+  // Pull (bodyweight)
+  // -----------------------------------------------------------------------
+  {
+    slug: "inverted-row",
+    name: "Inverted row",
+    description:
+      "Lie under a sturdy bar or table edge, heels on the floor. Pull your chest up to the bar by driving elbows back, then lower with control.",
+    kind: "strength",
+    category: "strength",
+    equipment: "none",
+    default_sets: 3,
+    default_reps: 8,
+    default_rest_sec: 60,
+    instructions: [
+      "Position yourself under a sturdy bar or the edge of a solid table, heels on the floor.",
+      "Grip the bar just outside shoulder-width with arms fully extended, body in a straight line.",
+      "Pull your chest toward the bar by driving your elbows back and squeezing your shoulder blades.",
+      "Lower under control to a full arm extension. Keep your hips up the whole rep.",
+    ],
+  },
+  {
+    slug: "bird-dog",
+    name: "Bird dog",
+    description:
+      "From hands and knees, extend opposite arm and leg until both are parallel to the floor. Hold briefly, then return and switch sides.",
+    kind: "strength",
+    category: "strength",
+    equipment: "none",
+    default_sets: 2,
+    default_reps: 10,
+    default_rest_sec: 30,
+    instructions: [
+      "Start on hands and knees, wrists under shoulders, knees under hips, spine neutral.",
+      "Extend your right arm forward and left leg back until both are parallel to the floor.",
+      "Hold for one count without letting your hips twist or sag.",
+      "Return to the start and switch sides. One rep = one side.",
+    ],
+  },
+  {
+    slug: "prone-y-raise",
+    name: "Prone Y-raise",
+    description:
+      "Lie face-down, arms overhead in a Y. Lift the arms a few inches off the floor by squeezing your upper back, then lower with control.",
+    kind: "strength",
+    category: "strength",
+    equipment: "none",
+    default_sets: 2,
+    default_reps: 10,
+    default_rest_sec: 30,
+    instructions: [
+      "Lie face-down with arms extended overhead in a Y-shape, thumbs pointing up.",
+      "Squeeze your upper back and shoulder blades to lift your arms a few inches off the mat.",
+      "Hold briefly at the top without shrugging your shoulders up to your ears.",
+      "Lower with control. Keep your forehead on or near the mat.",
+    ],
+  },
 ];

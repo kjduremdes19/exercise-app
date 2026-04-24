@@ -101,4 +101,34 @@ export const routines: RoutineSeed[] = [
       { exercise_slug: "lunge", sets: 1, reps: 16, rest_sec: 10 },
     ],
   },
+  {
+    slug: "yoga-flow-15",
+    name: "Yoga Flow 15",
+    description:
+      "Gentle flow through foundational poses. Move with breath, hold long, and reset between standing poses.",
+    estimated_duration_min: 15,
+    muscle_group: "full-body",
+    exercises: [
+      { exercise_slug: "cat-cow", sets: 2, reps: 10, rest_sec: 15 },
+      { exercise_slug: "downward-dog", sets: 2, duration_sec: 30, rest_sec: 15 },
+      { exercise_slug: "warrior-ii", sets: 2, duration_sec: 30, rest_sec: 20 },
+      { exercise_slug: "tree-pose", sets: 2, duration_sec: 20, rest_sec: 10 },
+      { exercise_slug: "childs-pose", sets: 1, duration_sec: 60, rest_sec: 0 },
+    ],
+  },
+  {
+    slug: "pull-day",
+    name: "Pull Day",
+    description:
+      "Back, biceps, and posterior chain. Mix of bodyweight rows and barbell work if available.",
+    estimated_duration_min: 25,
+    muscle_group: "pull",
+    exercises: [
+      { exercise_slug: "inverted-row", sets: 3, reps: 8, rest_sec: 60 },
+      { exercise_slug: "barbell-row", sets: 3, reps: 8, rest_sec: 90 },
+      { exercise_slug: "superman", sets: 3, reps: 12, rest_sec: 30 },
+      { exercise_slug: "prone-y-raise", sets: 2, reps: 10, rest_sec: 30 },
+      { exercise_slug: "bird-dog", sets: 2, reps: 10, rest_sec: 30 },
+    ],
+  },
 ];
