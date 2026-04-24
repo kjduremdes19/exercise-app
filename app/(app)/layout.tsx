@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
@@ -15,8 +16,14 @@ export default async function AppLayout({
     <div className="flex min-h-full flex-1 flex-col">
       <header className="border-b border-zinc-200 bg-white">
         <div className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-3">
-          <Link href="/" className="text-base font-semibold tracking-tight">
-            Exercise
+          <Link href="/" aria-label="FITWORK — home">
+            <Image
+              src="/brand/fitwork-logo.png"
+              width={400}
+              height={120}
+              alt="FITWORK"
+              className="h-7 w-auto"
+            />
           </Link>
           <div className="flex items-center gap-3 text-sm">
             <Link
