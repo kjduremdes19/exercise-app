@@ -17,7 +17,7 @@ export default async function RoutineDetailPage({
     <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 sm:py-12">
       <Link
         href="/"
-        className="text-sm text-zinc-500 underline-offset-2 hover:underline"
+        className="text-sm text-zinc-500 underline-offset-2 hover:underline dark:text-zinc-400"
       >
         ← Back
       </Link>
@@ -27,13 +27,13 @@ export default async function RoutineDetailPage({
           {routine.name}
         </h1>
         {routine.estimated_duration_min !== null && (
-          <span className="text-sm text-zinc-500">
+          <span className="text-sm text-zinc-500 dark:text-zinc-400">
             ~{routine.estimated_duration_min} min
           </span>
         )}
       </div>
       {routine.description && (
-        <p className="mt-1 text-zinc-600">{routine.description}</p>
+        <p className="mt-1 text-zinc-600 dark:text-zinc-400">{routine.description}</p>
       )}
 
       <div className="mt-6">

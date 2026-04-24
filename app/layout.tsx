@@ -23,6 +23,20 @@ export const viewport: Viewport = {
   themeColor: "#18181b",
 };
 
+// Runs before React hydrates: applies the user's stored theme (or OS default)
+// to the <html> element so dark-mode classes paint correctly on first render
+// and we avoid a flash of light theme.
+const themeBootScript = `
+(function() {
+  try {
+    var stored = localStorage.getItem("theme");
+    var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var dark = stored === "dark" || (stored !== "light" && prefersDark);
+    if (dark) document.documentElement.classList.add("dark");
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,10 +46,14 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+      </head>
       <body
         suppressHydrationWarning
-        className="min-h-full flex flex-col bg-white text-zinc-900"
+        className="min-h-full flex flex-col bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100"
       >
         {children}
       </body>

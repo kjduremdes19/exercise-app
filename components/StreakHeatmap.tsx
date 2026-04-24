@@ -58,15 +58,15 @@ export function StreakHeatmap({ sessions }: { sessions: WorkoutSession[] }) {
   const cells = buildCells(daySet, today);
 
   return (
-    <section className="rounded-2xl border border-zinc-200 bg-white px-5 py-4 shadow-sm">
+    <section className="rounded-2xl border border-zinc-200 bg-white px-5 py-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+          <p className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
             Streak
           </p>
-          <p className="mt-1 text-3xl font-bold tabular-nums text-zinc-900">
+          <p className="mt-1 text-3xl font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
             {streak}{" "}
-            <span className="text-base font-normal text-zinc-500">
+            <span className="text-base font-normal text-zinc-500 dark:text-zinc-400">
               {streak === 1 ? "day" : "days"}
             </span>
           </p>
@@ -80,9 +80,11 @@ export function StreakHeatmap({ sessions }: { sessions: WorkoutSession[] }) {
             <div key={col} className="flex flex-col gap-1">
               {Array.from({ length: DAYS_PER_WEEK }).map((_, row) => {
                 const cell = cells[col * DAYS_PER_WEEK + row];
-                const fill = cell.trained ? "bg-amber-400" : "bg-zinc-100";
+                const fill = cell.trained
+                  ? "bg-amber-400"
+                  : "bg-zinc-100 dark:bg-zinc-800";
                 const ring = cell.isToday
-                  ? "ring-2 ring-zinc-900 ring-offset-1"
+                  ? "ring-2 ring-zinc-900 ring-offset-1 dark:ring-zinc-100 dark:ring-offset-zinc-900"
                   : "";
                 return (
                   <div

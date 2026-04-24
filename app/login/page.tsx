@@ -22,7 +22,7 @@ export default async function LoginPage({
             width={200}
             height={200}
             priority
-            className="h-auto w-64"
+            className="h-auto w-64 dark:invert"
           />
         </div>
         <h1 className="text-2xl font-semibold tracking-tight">Log in</h1>
@@ -30,7 +30,7 @@ export default async function LoginPage({
         {error && (
           <p
             role="alert"
-            className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800"
+            className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
           >
             {error}
           </p>
@@ -46,7 +46,7 @@ export default async function LoginPage({
               name="email"
               required
               autoComplete="email"
-              className="block w-full rounded-md border border-zinc-300 px-3 py-2 text-base focus:border-zinc-900 focus:outline-none"
+              className="block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-base focus:border-zinc-900 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-300"
             />
           </label>
 
@@ -59,15 +59,15 @@ export default async function LoginPage({
 
           <button
             type="submit"
-            className="block w-full rounded-md bg-zinc-900 py-2 text-base font-medium text-white hover:bg-zinc-800"
+            className="block w-full rounded-md bg-zinc-900 py-2 text-base font-medium text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
           >
             Log in
           </button>
         </form>
 
-        <p className="text-sm text-zinc-600">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
           No account?{" "}
-          <Link href="/signup" className="font-medium text-zinc-900 underline">
+          <Link href="/signup" className="font-medium text-zinc-900 underline dark:text-zinc-100">
             Sign up
           </Link>
         </p>

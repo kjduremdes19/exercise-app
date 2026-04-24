@@ -20,7 +20,7 @@ export function PasswordInput({ label, className, id, ...inputProps }: Props) {
           type={visible ? "text" : "password"}
           className={
             className ??
-            "block w-full rounded-md border border-zinc-300 px-3 py-2 pr-10 text-base focus:border-zinc-900 focus:outline-none"
+            "block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 pr-10 text-base focus:border-zinc-900 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-300"
           }
           {...inputProps}
         />
@@ -29,7 +29,7 @@ export function PasswordInput({ label, className, id, ...inputProps }: Props) {
           aria-label={visible ? "Hide password" : "Show password"}
           aria-pressed={visible}
           onClick={() => setVisible((v) => !v)}
-          className="absolute inset-y-0 right-0 flex items-center px-3 text-zinc-500 hover:text-zinc-900"
+          className="absolute inset-y-0 right-0 flex items-center px-3 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
         >
           {visible ? <EyeIcon /> : <EyeOffIcon />}
         </button>

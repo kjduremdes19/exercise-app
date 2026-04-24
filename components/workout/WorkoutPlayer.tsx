@@ -140,7 +140,7 @@ export function WorkoutPlayer({ routine, resume = false }: Props) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center px-4 py-12 text-center">
         <h2 className="text-2xl font-semibold tracking-tight">{routine.name}</h2>
-        <p className="mt-2 text-sm text-zinc-600">
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
           {routine.steps.length} exercise{routine.steps.length === 1 ? "" : "s"}
           {routine.estimated_duration_min !== null && (
             <> · ~{routine.estimated_duration_min} min</>
@@ -149,7 +149,7 @@ export function WorkoutPlayer({ routine, resume = false }: Props) {
         <button
           type="button"
           onClick={handleStart}
-          className="mt-10 w-full max-w-xs rounded-md bg-zinc-900 py-4 text-base font-semibold text-white hover:bg-zinc-800"
+          className="mt-10 w-full max-w-xs rounded-md bg-zinc-900 py-4 text-base font-semibold text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
         >
           Start
         </button>

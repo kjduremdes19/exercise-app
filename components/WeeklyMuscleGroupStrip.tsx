@@ -18,7 +18,7 @@ type Props = {
 export function WeeklyMuscleGroupStrip({ countsByGroup }: Props) {
   return (
     <section aria-label="Weekly muscle group progress">
-      <h2 className="text-sm font-medium text-zinc-500">This week</h2>
+      <h2 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">This week</h2>
       <ul className="mt-2 flex flex-wrap gap-2">
         {ALL_GROUPS.map((g) => {
           const raw = countsByGroup.get(g) ?? 0;
@@ -28,17 +28,19 @@ export function WeeklyMuscleGroupStrip({ countsByGroup }: Props) {
 
           const classes =
             state === "full"
-              ? "border-emerald-300 bg-emerald-100 text-emerald-800"
+              ? "border-emerald-300 bg-emerald-100 text-emerald-800 dark:border-emerald-800/60 dark:bg-emerald-950/40 dark:text-emerald-300"
               : state === "partial"
-                ? "border-amber-300 text-amber-900"
-                : "border-zinc-200 bg-white text-zinc-500";
+                ? "border-amber-300 text-amber-900 dark:border-amber-800/60 dark:text-amber-100"
+                : "border-zinc-200 bg-white text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-500";
 
-          // Partial = half-filled amber from the left, white on the right.
+          // Partial = half-filled amber from the left, neutral on the right.
+          // The right-side color picks the page background per theme so the pill
+          // reads as half-filled in both modes.
           const partialStyle =
             state === "partial"
               ? {
                   background:
-                    "linear-gradient(to right, #fde68a 50%, #ffffff 50%)",
+                    "linear-gradient(to right, #fde68a 50%, transparent 50%)",
                 }
               : undefined;
 

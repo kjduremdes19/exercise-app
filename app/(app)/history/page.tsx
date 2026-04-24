@@ -20,17 +20,17 @@ export default async function HistoryPage() {
       <h1 className="text-2xl font-semibold tracking-tight">History</h1>
 
       {sessions.length === 0 ? (
-        <div className="mt-6 rounded-lg border border-dashed border-zinc-300 px-4 py-10 text-center">
-          <p className="text-zinc-600">No completed workouts yet.</p>
+        <div className="mt-6 rounded-lg border border-dashed border-zinc-300 px-4 py-10 text-center dark:border-zinc-700">
+          <p className="text-zinc-600 dark:text-zinc-400">No completed workouts yet.</p>
           <Link
             href="/"
-            className="mt-3 inline-block text-sm font-medium text-zinc-900 underline"
+            className="mt-3 inline-block text-sm font-medium text-zinc-900 underline dark:text-zinc-100"
           >
             Back to dashboard
           </Link>
         </div>
       ) : (
-        <ul className="mt-4 overflow-hidden rounded-lg border border-zinc-200 bg-white">
+        <ul className="mt-4 overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
           {sessions.map((s) => (
             <SessionRow key={s.id} session={s} />
           ))}

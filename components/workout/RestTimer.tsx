@@ -39,7 +39,7 @@ export function RestTimer({
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-4 py-8 text-center">
-      <p className="text-sm font-medium uppercase tracking-wider text-zinc-500">
+      <p className="text-sm font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
         Rest
       </p>
 
@@ -56,7 +56,7 @@ export function RestTimer({
             stroke="currentColor"
             strokeWidth="8"
             fill="none"
-            className="text-zinc-200"
+            className="text-zinc-200 dark:text-zinc-800"
           />
           <circle
             cx="100"
@@ -72,28 +72,28 @@ export function RestTimer({
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <p className="text-6xl font-bold tabular-nums text-zinc-900">
+          <p className="text-6xl font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
             {remainingSec}
           </p>
-          <p className="text-xs text-zinc-500">seconds</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">seconds</p>
         </div>
       </div>
 
-      <p className="mt-8 text-base text-zinc-600">
-        Next: <span className="font-medium text-zinc-900">{nextLabel}</span>
+      <p className="mt-8 text-base text-zinc-600 dark:text-zinc-400">
+        Next: <span className="font-medium text-zinc-900 dark:text-zinc-100">{nextLabel}</span>
       </p>
 
       <button
         type="button"
         onClick={onSkip}
-        className="mt-10 w-full max-w-xs rounded-md border border-zinc-300 py-3 text-base font-medium text-zinc-700 hover:bg-zinc-50"
+        className="mt-10 w-full max-w-xs rounded-md border border-zinc-300 py-3 text-base font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
       >
         Skip rest
       </button>
       <button
         type="button"
         onClick={onPause}
-        className="mt-3 text-sm text-zinc-500 underline-offset-2 hover:text-zinc-700 hover:underline"
+        className="mt-3 text-sm text-zinc-500 underline-offset-2 hover:text-zinc-700 hover:underline dark:text-zinc-400 dark:hover:text-zinc-200"
       >
         Pause for now
       </button>

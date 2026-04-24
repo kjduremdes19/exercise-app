@@ -6,12 +6,12 @@ import {
 
 export function RoutineExerciseAccordion({ steps }: { steps: MergedStep[] }) {
   return (
-    <ol className="divide-y divide-zinc-200 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+    <ol className="divide-y divide-zinc-200 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
       {steps.map((step) => (
         <li key={step.position}>
           <details className="group">
-            <summary className="flex cursor-pointer list-none items-center gap-3 px-5 py-4 hover:bg-zinc-50">
-              <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-xs font-semibold text-zinc-700">
+            <summary className="flex cursor-pointer list-none items-center gap-3 px-5 py-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
+              <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-xs font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
                 {step.position + 1}
               </span>
               <div className="min-w-0 flex-1">
@@ -19,12 +19,12 @@ export function RoutineExerciseAccordion({ steps }: { steps: MergedStep[] }) {
               </div>
               <span
                 aria-hidden="true"
-                className="shrink-0 text-zinc-400 transition group-open:rotate-180"
+                className="shrink-0 text-zinc-400 transition group-open:rotate-180 dark:text-zinc-500"
               >
                 ▾
               </span>
             </summary>
-            <div className="border-t border-zinc-100 bg-zinc-50/40 px-5 py-6">
+            <div className="border-t border-zinc-100 bg-zinc-50/40 px-5 py-6 dark:border-zinc-800 dark:bg-zinc-950/40">
               <ExerciseCardExpanded exercise={step.exercise} step={step} />
             </div>
           </details>

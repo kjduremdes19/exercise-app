@@ -15,20 +15,20 @@ export function SessionRow({ session }: { session: WorkoutSession }) {
   }).format(completed);
 
   return (
-    <li className="border-b border-zinc-200 last:border-b-0">
+    <li className="border-b border-zinc-200 last:border-b-0 dark:border-zinc-800">
       <Link
         href={`/history/${session.id}`}
-        className="flex items-baseline justify-between gap-3 px-4 py-3 hover:bg-zinc-50"
+        className="flex items-baseline justify-between gap-3 px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
       >
         <div className="min-w-0">
-          <p className="truncate font-medium text-zinc-900">
+          <p className="truncate font-medium text-zinc-900 dark:text-zinc-100">
             {session.routine_name}
           </p>
-          <p className="mt-0.5 text-xs text-zinc-500" suppressHydrationWarning>
+          <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400" suppressHydrationWarning>
             {localDate}
           </p>
         </div>
-        <p className="shrink-0 text-sm text-zinc-600">{elapsedMin} min</p>
+        <p className="shrink-0 text-sm text-zinc-600 dark:text-zinc-400">{elapsedMin} min</p>
       </Link>
     </li>
   );

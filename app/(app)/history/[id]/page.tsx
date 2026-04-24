@@ -34,18 +34,18 @@ export default async function HistoryDetailPage({
     <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 sm:py-12">
       <Link
         href="/history"
-        className="text-sm text-zinc-600 hover:text-zinc-900"
+        className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
       >
         ← History
       </Link>
       <h1 className="mt-2 text-2xl font-semibold tracking-tight">
         {session.routine_name}
       </h1>
-      <p className="mt-1 text-sm text-zinc-500" suppressHydrationWarning>
+      <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400" suppressHydrationWarning>
         {localDate} · {elapsedMin} min
       </p>
 
-      <ol className="mt-6 divide-y divide-zinc-200 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      <ol className="mt-6 divide-y divide-zinc-200 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
         {session.routine_snapshot.steps.map((s) => {
           const stepLog = session.set_logs?.steps.find(
             (l) => l.position === s.position,
@@ -53,20 +53,20 @@ export default async function HistoryDetailPage({
           return (
             <li key={s.position} className="px-5 py-4">
               <div className="flex items-baseline justify-between gap-3">
-                <p className="font-medium text-zinc-900">
+                <p className="font-medium text-zinc-900 dark:text-zinc-100">
                   {s.position + 1}. {s.exercise_name}
                 </p>
                 {s.rest_sec > 0 && (
-                  <p className="shrink-0 text-xs text-zinc-500">
+                  <p className="shrink-0 text-xs text-zinc-500 dark:text-zinc-400">
                     rest {s.rest_sec}s
                   </p>
                 )}
               </div>
-              <p className="mt-0.5 text-xs text-zinc-500">
+              <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
                 {formatStepParams(s)}
               </p>
               {stepLog && stepLog.sets.length > 0 && (
-                <ul className="mt-2 space-y-0.5 text-xs text-zinc-600">
+                <ul className="mt-2 space-y-0.5 text-xs text-zinc-600 dark:text-zinc-400">
                   {stepLog.sets.map((setLog, i) => (
                     <li key={i} className="tabular-nums">
                       Set {i + 1}: {formatSetLog(setLog)}
@@ -82,7 +82,7 @@ export default async function HistoryDetailPage({
       {session.routine_slug && (
         <Link
           href={`/routines/${session.routine_slug}`}
-          className="mt-6 inline-block rounded-md bg-zinc-900 px-5 py-3 text-sm font-medium text-white hover:bg-zinc-800"
+          className="mt-6 inline-block rounded-md bg-zinc-900 px-5 py-3 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
         >
           Do this again →
         </Link>

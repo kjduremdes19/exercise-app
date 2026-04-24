@@ -25,14 +25,14 @@ export function ExerciseCardSummary({
 }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="shrink-0 text-zinc-700">
+      <span className="shrink-0 text-zinc-700 dark:text-zinc-300">
         <ExerciseAnimation slug={exercise.slug} name={exercise.name} size={40} />
       </span>
-      <p className="min-w-0 flex-1 truncate font-medium text-zinc-900">
+      <p className="min-w-0 flex-1 truncate font-medium text-zinc-900 dark:text-zinc-100">
         {exercise.name}
       </p>
       {step && (
-        <p className="shrink-0 text-sm text-zinc-600">
+        <p className="shrink-0 text-sm text-zinc-600 dark:text-zinc-400">
           {formatStepMeta(step)}
         </p>
       )}
@@ -56,7 +56,7 @@ export function ExerciseCardExpanded({
 }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="text-zinc-700">
+      <div className="text-zinc-700 dark:text-zinc-300">
         <ExerciseAnimation
           slug={exercise.slug}
           name={exercise.name}
@@ -65,17 +65,17 @@ export function ExerciseCardExpanded({
       </div>
 
       {exercise.description && (
-        <p className="mt-3 max-w-md text-center text-sm text-zinc-600">
+        <p className="mt-3 max-w-md text-center text-sm text-zinc-600 dark:text-zinc-400">
           {exercise.description}
         </p>
       )}
 
       {exercise.instructions.length > 0 && (
         <div className="mt-4 w-full max-w-md">
-          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
             How to
           </p>
-          <ol className="mt-2 list-decimal space-y-1.5 pl-5 text-sm text-zinc-700 marker:text-zinc-400">
+          <ol className="mt-2 list-decimal space-y-1.5 pl-5 text-sm text-zinc-700 marker:text-zinc-400 dark:text-zinc-300 dark:marker:text-zinc-500">
             {exercise.instructions.map((line, i) => (
               <li key={i}>{line}</li>
             ))}
@@ -84,7 +84,7 @@ export function ExerciseCardExpanded({
       )}
 
       {step && step.rest_sec > 0 && (
-        <p className="mt-4 text-xs text-zinc-400">
+        <p className="mt-4 text-xs text-zinc-400 dark:text-zinc-500">
           Rest {step.rest_sec}s between sets
         </p>
       )}

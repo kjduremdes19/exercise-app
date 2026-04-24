@@ -18,7 +18,7 @@ export default async function SignupPage({
         {error && (
           <p
             role="alert"
-            className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800"
+            className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
           >
             {error}
           </p>
@@ -26,9 +26,9 @@ export default async function SignupPage({
 
         <SignupForm />
 
-        <p className="text-sm text-zinc-600">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-zinc-900 underline">
+          <Link href="/login" className="font-medium text-zinc-900 underline dark:text-zinc-100">
             Log in
           </Link>
         </p>

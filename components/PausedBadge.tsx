@@ -22,7 +22,7 @@ export function PausedBadge({ slug, variant = "pill" }: Props) {
   }
 
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800">
+    <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800 dark:border-amber-800/60 dark:bg-amber-950/40 dark:text-amber-300">
       <span aria-hidden="true">⏸</span> Paused
     </span>
   );

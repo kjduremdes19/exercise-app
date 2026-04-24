@@ -76,7 +76,7 @@ export default async function DashboardPage() {
 
       <h2 className="mt-10 text-lg font-semibold tracking-tight">All routines</h2>
       {routines.length === 0 ? (
-        <p className="mt-2 text-sm text-zinc-500">
+        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
           No routines yet. Run <code className="font-mono">npm run db:seed</code>{" "}
           to populate.
         </p>

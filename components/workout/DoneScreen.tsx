@@ -41,23 +41,23 @@ export function DoneScreen({ payload, routineName }: Props) {
       <h2 className="mt-4 text-2xl font-semibold tracking-tight">
         Workout complete
       </h2>
-      <p className="mt-2 text-zinc-600">{routineName}</p>
+      <p className="mt-2 text-zinc-600 dark:text-zinc-400">{routineName}</p>
 
       <div className="mt-6 text-sm">
         {state.kind === "saving" && (
-          <p className="text-zinc-500">Saving session…</p>
+          <p className="text-zinc-500 dark:text-zinc-400">Saving session…</p>
         )}
         {state.kind === "saved" && (
-          <p className="text-emerald-700">Saved.</p>
+          <p className="text-emerald-700 dark:text-emerald-400">Saved.</p>
         )}
         {state.kind === "error" && (
-          <p className="text-red-700">Save failed: {state.message}</p>
+          <p className="text-red-700 dark:text-red-400">Save failed: {state.message}</p>
         )}
       </div>
 
       <Link
         href="/"
-        className="mt-10 w-full max-w-xs rounded-md bg-zinc-900 py-3 text-center text-base font-medium text-white hover:bg-zinc-800"
+        className="mt-10 w-full max-w-xs rounded-md bg-zinc-900 py-3 text-center text-base font-medium text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
       >
         Back to dashboard
       </Link>
