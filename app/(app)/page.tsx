@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { RoutineCard } from "@/components/RoutineCard";
+import { StreakHeatmap } from "@/components/StreakHeatmap";
 import { TodaysPickCard } from "@/components/TodaysPickCard";
 import { WeeklyMuscleGroupStrip } from "@/components/WeeklyMuscleGroupStrip";
 import {
@@ -58,6 +59,10 @@ export default async function DashboardPage() {
   return (
     <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 sm:py-12">
       <h1 className="text-2xl font-semibold tracking-tight">Today</h1>
+
+      <div className="mt-6">
+        <StreakHeatmap sessions={sessions} />
+      </div>
 
       <div className="mt-6">
         <WeeklyMuscleGroupStrip countsByGroup={countsByGroup} />
