@@ -25,6 +25,7 @@ export type ExerciseSeed = {
   default_duration_sec?: number;
   default_rest_sec?: number;
   instructions?: string[];
+  video_url?: string | null;
 };
 
 export type RoutineExerciseSeed = {

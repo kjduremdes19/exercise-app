@@ -55,6 +55,7 @@ async function seed(): Promise<ChangeCounts> {
         default_duration_sec: e.default_duration_sec ?? null,
         default_rest_sec: e.default_rest_sec ?? 0,
         instructions: e.instructions ?? [],
+        video_url: e.video_url ?? null,
       })),
       { onConflict: "slug" },
     )

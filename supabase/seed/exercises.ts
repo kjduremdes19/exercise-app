@@ -1,5 +1,9 @@
 import type { ExerciseSeed } from "./types";
 
+// Video clips: 2-4 seconds, looping, MP4/H.264, target ≤500KB.
+// Suggested encode: ffmpeg -i in.mp4 -vf scale=400:-2 -c:v libx264 -crf 28 -an out.mp4
+// Upload to the `exercise-videos` Supabase Storage bucket, then set
+// video_url on the relevant entry to the public URL.
 export const exercises: ExerciseSeed[] = [
   // -----------------------------------------------------------------------
   // Bodyweight strength
