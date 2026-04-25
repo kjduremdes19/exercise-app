@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -49,7 +50,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+        <Script
+          id="theme-boot"
+          strategy="beforeInteractive"
+        >
+          {themeBootScript}
+        </Script>
       </head>
       <body
         suppressHydrationWarning
