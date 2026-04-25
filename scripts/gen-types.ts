@@ -20,20 +20,11 @@ if (!match) {
 }
 const projectRef = match[1];
 
-const result = spawnSync(
-  "npx",
-  [
-    "supabase",
-    "gen",
-    "types",
-    "typescript",
-    "--project-id",
-    projectRef,
-    "--schema",
-    "public",
-  ],
-  { encoding: "utf-8", shell: true },
-);
+// projectRef is regex-validated above to [a-z0-9-]+, so string-concat is
+// safe here. Passing args as a single string (vs an array with shell:true)
+// avoids the Node 22+ DEP0190 deprecation warning.
+const cmd = `npx supabase gen types typescript --project-id ${projectRef} --schema public`;
+const result = spawnSync(cmd, { encoding: "utf-8", shell: true });
 
 if (result.error) {
   console.error("Failed to launch supabase CLI:", result.error.message);
