@@ -131,4 +131,24 @@ export const routines: RoutineSeed[] = [
       { exercise_slug: "bird-dog", sets: 2, reps: 10, rest_sec: 30 },
     ],
   },
+  {
+    slug: "cardio-10",
+    name: "Cardio 10",
+    description:
+      "Ten minutes of bodyweight conditioning. 40s work / 20s rest, ten exercises in a single round. No equipment.",
+    estimated_duration_min: 10,
+    muscle_group: "cardio",
+    exercises: [
+      { exercise_slug: "jumping-jacks", sets: 1, duration_sec: 40, rest_sec: 20 },
+      { exercise_slug: "squat-jumps", sets: 1, duration_sec: 40, rest_sec: 20 },
+      { exercise_slug: "high-knees", sets: 1, duration_sec: 40, rest_sec: 20 },
+      { exercise_slug: "burpees", sets: 1, duration_sec: 40, rest_sec: 20 },
+      { exercise_slug: "butt-kicks", sets: 1, duration_sec: 40, rest_sec: 20 },
+      { exercise_slug: "mountain-climbers", sets: 1, duration_sec: 40, rest_sec: 20 },
+      { exercise_slug: "skater-jumps", sets: 1, duration_sec: 40, rest_sec: 20 },
+      { exercise_slug: "high-knees", sets: 1, duration_sec: 40, rest_sec: 20 },
+      { exercise_slug: "burpees", sets: 1, duration_sec: 40, rest_sec: 20 },
+      { exercise_slug: "jumping-jacks", sets: 1, duration_sec: 40, rest_sec: 20 },
+    ],
+  },
 ];

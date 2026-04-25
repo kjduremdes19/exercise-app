@@ -221,6 +221,74 @@ export const exercises: ExerciseSeed[] = [
       "Keep your core braced and shoulders stacked over your wrists.",
     ],
   },
+  {
+    slug: "burpees",
+    name: "Burpees",
+    description:
+      "Squat down, kick the feet back to a plank, do a push-up (optional), jump the feet back in, then explode up into a vertical jump. Repeat at a steady pace.",
+    kind: "timed",
+    category: "cardio",
+    equipment: "none",
+    default_duration_sec: 30,
+    default_rest_sec: 15,
+    instructions: [
+      "Stand with feet shoulder-width apart, arms at your sides.",
+      "Squat down, plant your hands, and kick both feet back into a high plank.",
+      "Optionally drop into a push-up, then jump the feet forward to your hands.",
+      "Drive up into a vertical jump with arms overhead, then land soft and repeat.",
+    ],
+  },
+  {
+    slug: "skater-jumps",
+    name: "Skater jumps",
+    description:
+      "Bound side-to-side from one foot to the other, mimicking a speed skater. Land softly on the outside foot and let the trailing leg cross behind.",
+    kind: "timed",
+    category: "cardio",
+    equipment: "none",
+    default_duration_sec: 30,
+    default_rest_sec: 15,
+    instructions: [
+      "Stand on your right foot with a slight knee bend, left foot lifted behind you.",
+      "Push off the right foot and bound laterally to land on your left foot.",
+      "Let the right leg cross behind the left for balance, arms swinging in opposition.",
+      "Reverse direction and continue bounding side-to-side at a steady pace.",
+    ],
+  },
+  {
+    slug: "squat-jumps",
+    name: "Squat jumps",
+    description:
+      "Drop into a bodyweight squat, then explode straight up into a jump. Land soft with bent knees and immediately descend into the next rep.",
+    kind: "timed",
+    category: "cardio",
+    equipment: "none",
+    default_duration_sec: 30,
+    default_rest_sec: 15,
+    instructions: [
+      "Stand with feet shoulder-width, toes pointed slightly out.",
+      "Sit hips back and down into a bodyweight squat, arms loaded behind you.",
+      "Drive through your mid-foot and swing your arms up to jump straight up.",
+      "Land softly with bent knees and immediately descend into the next squat.",
+    ],
+  },
+  {
+    slug: "butt-kicks",
+    name: "Butt kicks",
+    description:
+      "Run in place, kicking your heels back to touch your glutes on each step. Stay light on the balls of your feet and pump the arms.",
+    kind: "timed",
+    category: "cardio",
+    equipment: "none",
+    default_duration_sec: 30,
+    default_rest_sec: 15,
+    instructions: [
+      "Stand tall with feet hip-width and arms bent at 90°.",
+      "Run in place, flicking each heel up to touch (or nearly touch) your glutes.",
+      "Pump your arms in opposition to your legs, keeping your torso upright.",
+      "Stay light on the balls of your feet and maintain a quick, even cadence.",
+    ],
+  },
 
   // -----------------------------------------------------------------------
   // Barbell compound lifts
