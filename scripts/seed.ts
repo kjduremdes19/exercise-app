@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { exercises } from "../supabase/seed/exercises";
 import { routines } from "../supabase/seed/routines";
+import type { Database } from "../lib/db/database.types";
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -12,7 +13,7 @@ if (!url || !serviceKey) {
   process.exit(1);
 }
 
-const supabase = createClient(url, serviceKey, {
+const supabase = createClient<Database>(url, serviceKey, {
   auth: { persistSession: false },
 });
 
