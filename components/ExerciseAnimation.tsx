@@ -1,14 +1,17 @@
 import { createElement } from "react";
 import { ExerciseLogo } from "./ExerciseLogo";
+import { ExerciseVideo } from "./ExerciseVideo";
 import { getExerciseAnimation } from "./exercise-animations";
 
 type Props = {
   slug: string;
   name: string;
   size?: number;
+  videoUrl?: string | null;
 };
 
-export function ExerciseAnimation({ slug, name, size = 100 }: Props) {
+export function ExerciseAnimation({ slug, name, size = 100, videoUrl }: Props) {
+  // Precedence: hand-built SVG > uploaded video > dumbbell-icon fallback.
   const component = getExerciseAnimation(slug);
   if (component) {
     return createElement(component, {
@@ -16,7 +19,15 @@ export function ExerciseAnimation({ slug, name, size = 100 }: Props) {
       label: `Animated demonstration: ${name}`,
     });
   }
-  // Fallback: dumbbell icon scaled to the requested size, centered.
+  if (videoUrl) {
+    return (
+      <ExerciseVideo
+        src={videoUrl}
+        size={size}
+        label={`Video demonstration: ${name}`}
+      />
+    );
+  }
   return (
     <span
       role="img"

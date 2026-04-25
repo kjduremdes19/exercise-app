@@ -61,6 +61,7 @@ export function ExerciseCardExpanded({
           slug={exercise.slug}
           name={exercise.name}
           size={animationSize}
+          videoUrl={exercise.video_url}
         />
       </div>
 
