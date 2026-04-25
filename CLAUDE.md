@@ -44,6 +44,7 @@ Responsive web app. Auth via Supabase email+password. Server Components for read
 | `npm run build` | Production build |
 | `npm run lint` | ESLint |
 | `npm run db:seed` | Idempotent seed into Supabase (needs service-role key) |
+| `npm run db:gen-types` | Regenerate `lib/db/database.types.ts` from remote Supabase (run after each migration; needs one-time `npx supabase login`) |
 | `supabase db push` | Apply migrations to linked project |
 
 ## Git Workflow
