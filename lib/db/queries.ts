@@ -16,10 +16,12 @@ export async function getRoutines(): Promise<Routine[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("routines")
-    .select("id, slug, name, description, estimated_duration_min, muscle_group")
+    .select(
+      "id, slug, name, description, estimated_duration_min, muscle_group, created_at",
+    )
     .order("name", { ascending: true });
   if (error) throw error;
-  return (data ?? []) as Routine[];
+  return data ?? [];
 }
 
 export async function getRoutineBySlug(
@@ -29,7 +31,9 @@ export async function getRoutineBySlug(
 
   const { data: routine, error: rErr } = await supabase
     .from("routines")
-    .select("id, slug, name, description, estimated_duration_min, muscle_group")
+    .select(
+      "id, slug, name, description, estimated_duration_min, muscle_group, created_at",
+    )
     .eq("slug", slug)
     .maybeSingle();
   if (rErr) throw rErr;
@@ -38,31 +42,20 @@ export async function getRoutineBySlug(
   const { data: rows, error: reErr } = await supabase
     .from("routine_exercises")
     .select(
-      "position, sets, reps, duration_sec, rest_sec, exercise:exercises(id, slug, name, description, kind, category, equipment, default_sets, default_reps, default_duration_sec, default_rest_sec, instructions)",
+      "position, sets, reps, duration_sec, rest_sec, exercise:exercises(id, slug, name, description, kind, category, equipment, default_sets, default_reps, default_duration_sec, default_rest_sec, instructions, created_at)",
     )
     .eq("routine_id", routine.id)
     .order("position", { ascending: true });
   if (reErr) throw reErr;
 
-  type Row = {
-    position: number;
-    sets: number | null;
-    reps: number | null;
-    duration_sec: number | null;
-    rest_sec: number | null;
-    // Supabase typings for embedded relations can be either an object or
-    // an array depending on the relationship cardinality; ours is many-to-one
-    // (each routine_exercise has exactly one exercise) but the generic types
-    // still surface it as a possible array.
-    exercise: Exercise | Exercise[];
-  };
-
-  const steps = (rows as Row[] | null ?? []).map((r) => {
-    const ex = Array.isArray(r.exercise) ? r.exercise[0] : r.exercise;
+  const steps = (rows ?? []).map((r) => {
+    // supabase-js with a typed client surfaces to-one embedded relations as
+    // T | T[] depending on the client version. Normalize defensively.
+    const ex = (Array.isArray(r.exercise) ? r.exercise[0] : r.exercise) as Exercise;
     return mergeRoutineExercise(ex, r);
   });
 
-  return { ...(routine as Routine), steps };
+  return { ...routine, steps };
 }
 
 export async function getSessionById(
@@ -85,8 +78,11 @@ export async function getSessionById(
   if (error) throw error;
   if (!data) return null;
 
-  const rel = (data as { routine: { slug: string } | { slug: string }[] | null }).routine;
-  const routine_slug = Array.isArray(rel) ? (rel[0]?.slug ?? null) : (rel?.slug ?? null);
+  // Same to-one normalization as getRoutineBySlug.
+  const rel = data.routine;
+  const routine_slug = Array.isArray(rel)
+    ? (rel[0]?.slug ?? null)
+    : (rel?.slug ?? null);
 
   return {
     id: data.id,
@@ -112,7 +108,7 @@ export async function getSessionsForUser(
     .order("completed_at", { ascending: false })
     .limit(limit);
   if (error) throw error;
-  return (data ?? []) as WorkoutSession[];
+  return data ?? [];
 }
 
 /**
@@ -147,8 +143,10 @@ export async function getTodaysPick(
   const allGroups = new Set<MuscleGroup>();
   for (const r of routines) {
     if (r.muscle_group) {
-      groupByRoutineId.set(r.id, r.muscle_group);
-      allGroups.add(r.muscle_group);
+      // r.muscle_group is `string | null` from the DB schema; the CHECK
+      // constraint plus seed-only writes guarantee it's a MuscleGroup literal.
+      groupByRoutineId.set(r.id, r.muscle_group as MuscleGroup);
+      allGroups.add(r.muscle_group as MuscleGroup);
     }
   }
 
@@ -179,7 +177,9 @@ export async function getTodaysPick(
   const candidates =
     candidateGroups.size > 0
       ? routines.filter(
-          (r) => r.muscle_group && candidateGroups.has(r.muscle_group),
+          (r) =>
+            r.muscle_group &&
+            candidateGroups.has(r.muscle_group as MuscleGroup),
         )
       : routines; // no groups assigned at all (pre-migration safety net)
 

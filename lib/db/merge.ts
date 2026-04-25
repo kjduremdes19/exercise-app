@@ -1,4 +1,4 @@
-import type { Exercise, MergedStep, RoutineExerciseRow } from "./types";
+import type { Exercise, ExerciseKind, MergedStep, RoutineExerciseRow } from "./types";
 
 export function mergeRoutineExercise(
   exercise: Exercise,
@@ -10,7 +10,9 @@ export function mergeRoutineExercise(
   return {
     position: re.position,
     exercise,
-    kind: exercise.kind,
+    // exercise.kind is `string` at the DB layer (text + CHECK); narrow back
+    // to the app-level ExerciseKind union, which the seed file enforces.
+    kind: exercise.kind as ExerciseKind,
     sets: re.sets ?? exercise.default_sets,
     reps: re.reps ?? exercise.default_reps,
     duration_sec: re.duration_sec ?? exercise.default_duration_sec,

@@ -1,3 +1,5 @@
+import type { Tables } from "./database.types";
+
 export type ExerciseKind = "strength" | "timed";
 
 export type ExerciseCategory =
@@ -15,20 +17,10 @@ export type ExerciseEquipment =
   | "mat"
   | "machine";
 
-export type Exercise = {
-  id: string;
-  slug: string;
-  name: string;
-  description: string;
-  kind: ExerciseKind;
-  category: ExerciseCategory | null;
-  equipment: ExerciseEquipment | null;
-  default_sets: number | null;
-  default_reps: number | null;
-  default_duration_sec: number | null;
-  default_rest_sec: number | null;
-  instructions: string[];
-};
+// DB-level row. Note: `kind`, `category`, and `equipment` widen to `string`
+// because the columns are plain text with CHECK constraints. Callers that
+// need the narrower app-level enum cast at the use site.
+export type Exercise = Tables<"exercises">;
 
 export type MuscleGroup =
   | "push"
@@ -38,24 +30,11 @@ export type MuscleGroup =
   | "core"
   | "cardio";
 
-export type Routine = {
-  id: string;
-  slug: string;
-  name: string;
-  description: string;
-  estimated_duration_min: number | null;
-  muscle_group: MuscleGroup | null;
-};
+// `muscle_group` widens to `string | null` from the DB CHECK constraint;
+// see Exercise note above.
+export type Routine = Tables<"routines">;
 
-export type RoutineExerciseRow = {
-  routine_id: string;
-  position: number;
-  exercise_id: string;
-  sets: number | null;
-  reps: number | null;
-  duration_sec: number | null;
-  rest_sec: number | null;
-};
+export type RoutineExerciseRow = Tables<"routine_exercises">;
 
 // A routine_exercise joined with its exercise, after default-merging.
 export type MergedStep = {
@@ -74,13 +53,12 @@ export type RoutineDetail = Routine & {
 
 export type RoutineStatus = "never" | "past" | "today";
 
-export type WorkoutSession = {
-  id: string;
-  routine_id: string | null;
-  routine_name: string;
-  started_at: string;
-  completed_at: string;
-};
+// Pick because the history list only selects these five columns; the
+// table itself has more (routine_snapshot, set_logs, user_id, etc.).
+export type WorkoutSession = Pick<
+  Tables<"workout_sessions">,
+  "id" | "routine_id" | "routine_name" | "started_at" | "completed_at"
+>;
 
 export type SessionSnapshotStep = {
   position: number;

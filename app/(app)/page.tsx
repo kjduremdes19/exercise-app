@@ -44,7 +44,8 @@ export default async function DashboardPage() {
   // Weekly muscle-group counts — same 7-day window as getTodaysPick.
   const groupByRoutineId = new Map<string, MuscleGroup>();
   for (const r of routines) {
-    if (r.muscle_group) groupByRoutineId.set(r.id, r.muscle_group);
+    if (r.muscle_group)
+      groupByRoutineId.set(r.id, r.muscle_group as MuscleGroup);
   }
   const weeklyWindowStart = now.getTime() - 6 * 24 * 60 * 60 * 1000;
   const countsByGroup = new Map<MuscleGroup, number>();
